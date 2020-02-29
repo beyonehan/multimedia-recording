@@ -10,7 +10,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-@interface ViewController () <AVCaptureMetadataOutputObjectsDelegate>
+@interface ViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (nonatomic, strong) AVCaptureSession  *session;
 
@@ -25,11 +25,16 @@
     
     AVCaptureDeviceInput  *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
     
-    AVCaptureMetadataOutput *metalOutput = [[AVCaptureMetadataOutput alloc]init];
-    metalOutput.rectOfInterest = self.view.bounds;
+//    AVCaptureMetadataOutput *metalOutput = [[AVCaptureMetadataOutput alloc]init];
+//    metalOutput.rectOfInterest = self.view.bounds;
+//
+//    [metalOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     
-    [metalOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+    AVCaptureVideoDataOutput *videoDateOuput = [[AVCaptureVideoDataOutput alloc]init];
     
+    [videoDateOuput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
+    
+
     AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
     
     if ([captureSession canAddInput:input]) {
@@ -37,9 +42,13 @@
         [captureSession addInput:input];
     }
     
-    if ([captureSession canAddOutput:metalOutput]) {
-        
-        [captureSession addOutput:metalOutput];
+//    if ([captureSession canAddOutput:metalOutput]) {
+//
+//        [captureSession addOutput:metalOutput];
+//    }
+//
+    if ([captureSession canAddOutput:videoDateOuput]) {
+        [captureSession addOutput:videoDateOuput];
     }
     
     AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
@@ -55,10 +64,15 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)captureOutput:(AVCaptureOutput *)output didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
+//- (void)captureOutput:(AVCaptureOutput *)output didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
+//
+//
+//
+//}
+
+- (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection       {
     
-    
-    
+    NSLog(@"sampleBuffer = %@",sampleBuffer);
 }
 
 
