@@ -300,7 +300,7 @@
         AVAssetExportSessionStatus status = session.status;
         if(AVAssetExportSessionStatusCompleted == status) {
             
-//            [self playeWithAudioPath:outPath];
+            [self playeWithAudioPath:outPath];
             NSLog(@"音频导出成功");
         } else {
             NSLog(@"音频导出失败");
